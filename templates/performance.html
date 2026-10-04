@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Performance Testing{% endblock %}
+{% block content %}
+<h1 style="font-size:26px;">Performance Testing</h1>
+<p style="color:#37423b;">Live metrics pulled from the actual pipeline, not placeholders.
+Dataset: <strong>{{ stats.dataset_label }}</strong>
+(<span class="tag">{{ 'Known food-choices schema' if stats.schema == 'food' else 'Auto-detected schema' }}</span>)</p>
+
+<table class="perf-table">
+  <tr><th>Parameter</th><th>Value</th></tr>
+  <tr><td>Data rendered (raw rows collected)</td><td>{{ stats.raw_rows }}</td></tr>
+  <tr><td>Data preprocessing</td><td>Removed {{ stats.removed_nulls }} rows with missing key fields</td></tr>
+  <tr><td>Rows used in analysis</td><td>{{ stats.rows_used }}</td></tr>
+  <tr><td>Utilization of filters</td>
+      <td>{% for f in stats.filters %}<span class="tag">{{ f }}</span>{% endfor %}</td></tr>
+  <tr><td>Calculated fields used ({{ stats.n_calculated_fields }})</td>
+      <td>{% for c in stats.calculated_fields %}<span class="tag">{{ c }}</span>{% endfor %}</td></tr>
+  <tr><td>Number of visualizations / graphs</td><td>{{ stats.n_visualizations }}</td></tr>
+  <tr><td>Number of story scenes</td><td>{{ stats.n_story_scenes }}</td></tr>
+  <tr><td>Dashboard load</td><td>Client-side fetch to <code>/api/dashboard-data</code>, charts render on filter change</td></tr>
+</table>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div style="display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:8px;">
+  <h1 style="font-size:26px;" id="dash-title">Food Choice Analysis Dashboard</h1>
+  <div style="font-size:13px; color:#6b6f68;">
+    Data source: <strong id="dash-source">{{ dataset_label }}</strong> &middot;
+    <a href="{{ url_for('upload') }}">upload a different dataset</a>
+  </div>
+</div>
+
+<div class="filter-bar" id="filter-bar">
+  <div class="filter-note" id="filter-note">Loading filters&hellip;</div>
+</div>
+
+<div class="kpi-row" id="kpi-row"></div>
+
+<div class="chart-grid" id="chart-grid"></div>
+
+<h2 style="margin-top:32px; font-size:20px;">What to take / what not to take</h2>
+<p style="color:#6b6f68; font-size:13px; margin-top:-8px;">Generated automatically from the filtered group above — rule-based on real thresholds, not a black box.</p>
+<div class="suggest-wrap" id="suggest-wrap">
+  <div class="suggest-col take"><h3>Take</h3><ul id="sug-take"></ul></div>
+  <div class="suggest-col avoid"><h3>Avoid</h3><ul id="sug-avoid"></ul></div>
+  <div class="suggest-col watch"><h3>Watch / Escalate</h3><ul id="sug-watch"></ul></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.32.0/plotly.min.js"></script>
+<script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+{% endblock %}

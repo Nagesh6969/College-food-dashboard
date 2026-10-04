@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Story{% endblock %}
+{% block content %}
+<h1 style="font-size:26px;">Narrative &amp; Analytical Story</h1>
+<p style="color:#37423b; max-width:640px;">Three scenes, each grounded in the same dataset, showing how the
+dashboard changes a real decision.</p>
+
+<div class="scene-tabs">
+  <button class="active" data-scene="rahul">Scene 1 · Rahul</button>
+  <button data-scene="priya">Scene 2 · Priya</button>
+  <button data-scene="cafeteria">Scene 3 · Cafeteria Manager</button>
+</div>
+
+<div class="scene-panel">
+  <div>
+    <div class="persona" id="scene-persona">Second-year engineering student</div>
+    <h2 id="scene-title">Improving personal health and academic focus</h2>
+    <p id="scene-text">Rahul often skips breakfast and relies on fast food due to a busy schedule.
+    Exploring the dashboard, he finds that students who eat a proper breakfast tend to score higher
+    on the Healthy Eating Score used across this platform — so he swaps his rushed mornings for a
+    quick, balanced breakfast.</p>
+  </div>
+  <div class="scene-chart" id="scene-chart"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.32.0/plotly.min.js"></script>
+<script>
+const scenes = {
+  rahul: {
+    persona: "Second-year engineering student",
+    title: "Improving personal health and academic focus",
+    text: "Rahul often skips breakfast and relies on fast food due to a busy schedule. Exploring the dashboard, he finds that students who eat a proper breakfast score noticeably higher on the Healthy Eating Score — so he swaps his rushed mornings for a quick, balanced breakfast."
+  },
+  priya: {
+    persona: "First-year college student",
+    title: "Managing stress-related eating habits",
+    text: "Priya reaches for comfort food during exam stress. The dashboard shows stress is the single biggest driver of comfort eating across the surveyed group, well ahead of boredom or sadness — so she starts swapping in fruit, home-cooked meals, and short walks during high-stress weeks."
+  },
+  cafeteria: {
+    persona: "University cafeteria manager",
+    title: "Improving cafeteria food choices",
+    text: "The manager reviews average daily fruit and vegetable intake against how many students pick a sugary breakfast. Produce intake is low relative to fast/sugary choices — so the cafeteria adds a fresh salad bar and balanced combo meals to nudge better choices."
+  }
+};
+
+async function loadScene(name) {
+  const s = scenes[name];
+  document.getElementById("scene-persona").textContent = s.persona;
+  document.getElementById("scene-title").textContent = s.title;
+  document.getElementById("scene-text").textContent = s.text;
+
+  const box = document.getElementById("scene-chart");
+  box.innerHTML = "<p style='color:#6b6f68;padding:20px;'>Loading chart…</p>";
+  const res = await fetch(`/api/story-data/${name}`);
+  const data = await res.json();
+  box.innerHTML = data.chart;
+  box.querySelectorAll("script").forEach(old => {
+    const sEl = document.createElement("script");
+    sEl.textContent = old.textContent;
+    old.replaceWith(sEl);
+  });
+}
+
+document.querySelectorAll(".scene-tabs button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".scene-tabs button").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    loadScene(btn.dataset.scene);
+  });
+});
+
+loadScene("rahul");
+</script>
+{% endblock %}

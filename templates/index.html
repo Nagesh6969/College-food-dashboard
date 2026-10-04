@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Overview{% endblock %}
+{% block content %}
+<section class="hero">
+  <h1>Turning scattered dietary data into wellness decisions</h1>
+  <p class="lead">This platform replaces static, siloed survey data with an interactive
+  view of what college students actually eat — so administrators, nutritionists and
+  cafeteria staff can act before problems appear, not after.</p>
+</section>
+
+<div class="kpi-row">
+  <div class="kpi-card"><div class="num">{{ meta.total_rows_raw }}</div><div class="label">Survey responses collected</div></div>
+  <div class="kpi-card"><div class="num">{{ meta.removed_nulls }}</div><div class="label">Incomplete rows removed</div></div>
+  <div class="kpi-card"><div class="num">{{ meta.rows_used }}</div><div class="label">Rows used in analysis</div></div>
+  <div class="kpi-card"><div class="num">{{ meta.calculated_fields|length }}</div><div class="label">Calculated fields created</div></div>
+</div>
+
+<div class="card-grid">
+  <div class="info-card">
+    <h3>Explore the Dashboard</h3>
+    <p>Filter by gender, risk group and exercise level, and see live charts plus
+    take / avoid / watch suggestions update instantly.</p>
+  </div>
+  <div class="info-card">
+    <h3>Walk through the Story</h3>
+    <p>Three real scenarios — a student skipping breakfast, one managing stress eating,
+    and a cafeteria manager rethinking the menu — each backed by a chart.</p>
+  </div>
+  <div class="info-card">
+    <h3>Check Performance</h3>
+    <p>Data volume, cleaning steps, calculated fields and visualization count —
+    the same metrics used in performance testing.</p>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Food Choices Wellness Dashboard{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">FC</span>
+      <div class="brand-text">
+        <strong>Food Choices Wellness Platform</strong>
+        <small>Comprehensive Analysis and Dietary Strategies</small>
+      </div>
+    </div>
+    <nav>
+      <a href="{{ url_for('home') }}" class="{{ 'active' if request.path == '/' else '' }}">Overview</a>
+      <a href="{{ url_for('upload') }}" class="{{ 'active' if request.path == '/upload' else '' }}">Upload Data</a>
+      <a href="{{ url_for('dashboard') }}" class="{{ 'active' if request.path == '/dashboard' else '' }}">Dashboard</a>
+      <a href="{{ url_for('story') }}" class="{{ 'active' if request.path == '/story' else '' }}">Story</a>
+      <a href="{{ url_for('performance') }}" class="{{ 'active' if request.path == '/performance' else '' }}">Performance</a>
+    </nav>
+  </header>
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+  <footer>
+    <span>Comprehensive Analysis and Dietary Strategies with Tableau</span>
+  </footer>
+</body>
+</html>

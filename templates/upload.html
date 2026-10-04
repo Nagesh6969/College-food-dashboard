@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Upload Dataset{% endblock %}
+{% block content %}
+<h1 style="font-size:26px;">Upload a Dataset</h1>
+<p style="color:#37423b; max-width:680px;">Upload any CSV file. If its columns match the
+Food Choices survey structure, the full purpose-built dashboard is used. If not, the platform
+automatically detects which columns are numeric and which are categories, and builds a general
+Tableau-style dashboard — distributions, group comparisons, a treemap and a packed-bubble chart —
+from whatever your file contains. No fixed column names required.</p>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for m in messages %}<div class="flash">{{ m }}</div>{% endfor %}
+  {% endif %}
+{% endwith %}
+
+<p style="font-size:14px;">Currently active: <strong>{{ current_label }}</strong>
+  {% if using_upload %} &middot; <a href="{{ url_for('use_demo_data') }}">switch back to demo data</a>{% endif %}
+</p>
+
+<div class="upload-box">
+  <form method="POST" enctype="multipart/form-data">
+    <p style="margin:0 0 6px; font-weight:600;">Drop your CSV here or choose a file</p>
+    <input type="file" name="dataset" accept=".csv" required>
+    <br>
+    <button class="btn" type="submit">Upload &amp; Analyze</button>
+  </form>
+</div>
+
+<div class="info-card" style="max-width:700px;">
+  <h3>How column detection works</h3>
+  <p style="margin-bottom:0;">Each column is classified automatically: mostly-unique columns are
+  treated as IDs and ignored, numeric columns feed distributions and averages, columns with a
+  small number of repeated values become categories for grouping and filtering, and date-like
+  columns add a trend line. No column names need to match anything specific.</p>
+</div>
+{% endblock %}
